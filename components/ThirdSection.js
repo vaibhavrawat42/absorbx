@@ -4,16 +4,16 @@ import { useState } from 'react';
 import Image from 'next/image';
 import { ASSETS } from '@/lib/assets';
 
-const TYPE_OPTIONS = ['All', 'Industrial', 'Artisinal'];
-const CARBON_OPTIONS = ['All', '20-40%', '40-60%', '60-80%', '80-90%', '90% +'];
+const TYPE_OPTIONS = ['All', 'Industrial', 'Artisanal'];
+const METHOD_OPTIONS = ['All', 'Kontiki', 'Soil pit', 'Gasifier', 'Pyrolysis'];
 
 const BIOCHAR_PRODUCTS = [
   { location: 'Yavatmal, Maharashtra', type: 'Industrial', feedstock: 'Cotton', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '2-3', priceLabel: 'Price (INR/KG)' },
   { location: 'Kutch/Rajkot, Gujarat', type: 'Industrial', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '500 T', availableNow: '200 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'West Bengal', type: 'Artisinal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '80-90%', monthlyTotal: '500 T', availableNow: '200 T', priceYear: '20-22', priceLabel: 'Price (INR/KG)' },
+  { location: 'West Bengal', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '80-90%', monthlyTotal: '500 T', availableNow: '200 T', priceYear: '20-22', priceLabel: 'Price (INR/KG)' },
   { location: 'Lucknow, Uttar Pradesh', type: 'Industrial', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'Karnataka', type: 'Artisinal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'Jalna, Maharashtra', type: 'Artisinal', feedstock: 'Cotton', method: 'Kontiki', carbonContent: '60-80%', monthlyTotal: '150 T', availableNow: '100 T', priceYear: '2-3', priceLabel: 'Price (INR/KG)' },
+  { location: 'Karnataka', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
+  { location: 'Jalna, Maharashtra', type: 'Artisanal', feedstock: 'Cotton', method: 'Kontiki', carbonContent: '60-80%', monthlyTotal: '150 T', availableNow: '100 T', priceYear: '2-3', priceLabel: 'Price (INR/KG)' },
 ];
 
 function FilterPill({ label, active, onClick }) {
@@ -124,12 +124,12 @@ function ProductCard({ product }) {
 
 export default function ThirdSection() {
   const [typeActive, setTypeActive] = useState('All');
-  const [carbonActive, setCarbonActive] = useState('All');
+  const [methodActive, setMethodActive] = useState('All');
 
   const filteredProducts = BIOCHAR_PRODUCTS.filter((product) => {
     const matchType = typeActive === 'All' || product.type === typeActive;
-    const matchCarbon = carbonActive === 'All' || product.carbonContent === carbonActive;
-    return matchType && matchCarbon;
+    const matchMethod = methodActive === 'All' || product.method === methodActive;
+    return matchType && matchMethod;
   });
 
   return (
@@ -163,36 +163,26 @@ export default function ThirdSection() {
             </div>
             <div>
               <p className="mb-4 text-xs font-medium uppercase tracking-[0.24px] text-[#c5c4c4] md:mb-5 md:text-base">
-                CARBON CONTENT
+                METHOD USED
               </p>
               <div className="flex flex-wrap gap-3 md:flex md:flex-col md:gap-6">
                 <div className="flex flex-wrap gap-3 md:gap-3">
-                  {CARBON_OPTIONS.slice(0, 3).map((opt) => (
+                  {METHOD_OPTIONS.slice(0, 3).map((opt) => (
                     <FilterPill
                       key={opt}
                       label={opt}
-                      active={carbonActive === opt}
-                      onClick={() => setCarbonActive(opt)}
+                      active={methodActive === opt}
+                      onClick={() => setMethodActive(opt)}
                     />
                   ))}
                 </div>
                 <div className="flex flex-wrap gap-3 md:gap-3">
-                  {CARBON_OPTIONS.slice(3, 5).map((opt) => (
+                  {METHOD_OPTIONS.slice(3).map((opt) => (
                     <FilterPill
                       key={opt}
                       label={opt}
-                      active={carbonActive === opt}
-                      onClick={() => setCarbonActive(opt)}
-                    />
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-3 md:gap-3">
-                  {CARBON_OPTIONS.slice(5).map((opt) => (
-                    <FilterPill
-                      key={opt}
-                      label={opt}
-                      active={carbonActive === opt}
-                      onClick={() => setCarbonActive(opt)}
+                      active={methodActive === opt}
+                      onClick={() => setMethodActive(opt)}
                     />
                   ))}
                 </div>

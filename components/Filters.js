@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const TYPE_OPTIONS = ['All', 'Industrial', 'Artisinal'];
+const TYPE_OPTIONS = ['All', 'Industrial', 'Artisanal'];
 const CARBON_OPTIONS = ['All', '20-40%', '40-60%', '60-80%', '80-90%', '90% +'];
 
 export default function Filters() {
