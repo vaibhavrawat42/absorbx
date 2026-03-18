@@ -27,8 +27,8 @@ export default function HeroSection() {
           sizes="100vw"
         />
       </div>
-      <div className="absolute left-1/2 top-1/2 w-full max-w-[327px] -translate-x-1/2 -translate-y-1/2 px-6 md:left-1/2 md:top-1/2 md:flex md:max-w-[929px] md:-translate-x-1/2 md:-translate-y-1/2 md:flex-col md:items-center md:justify-center md:gap-[56px] md:px-0">
-        <div className="md:flex md:flex-col md:items-center md:gap-[26px]">
+      <div className="absolute left-0 right-0 top-1/2 w-full -translate-y-1/2 px-[24px] md:left-1/2 md:right-auto md:top-1/2 md:flex md:max-w-[929px] md:-translate-x-1/2 md:-translate-y-1/2 md:flex-col md:items-center md:justify-center md:gap-[56px] md:px-0">
+        <div className="max-w-[327px] md:max-w-none md:flex md:flex-col md:items-center md:gap-[26px]">
           <h1 className="hero-reveal font-serif text-[40px] font-bold leading-[46px] text-[#e7e6e2] md:whitespace-nowrap md:text-center md:text-[78px] md:leading-[82px] md:text-[#ebebeb]">
             <span className="block md:inline">Decarbonise</span>{' '}
             <span className="block md:inline">with biochar</span>

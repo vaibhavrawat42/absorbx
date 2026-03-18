@@ -5,15 +5,20 @@ import Image from 'next/image';
 import { ASSETS } from '@/lib/assets';
 
 const TYPE_OPTIONS = ['All', 'Industrial', 'Artisanal'];
-const METHOD_OPTIONS = ['All', 'Kontiki', 'Soil pit', 'Gasifier', 'Pyrolysis'];
+const ALL_METHODS = ['All', 'Kontiki', 'Soil pit', 'Gasifier', 'Pyrolysis'];
+const METHOD_BY_TYPE = {
+  All: ALL_METHODS,
+  Industrial: ['All', 'Gasifier', 'Pyrolysis'],
+  Artisanal: ['All', 'Kontiki', 'Soil pit'],
+};
 
 const BIOCHAR_PRODUCTS = [
-  { location: 'Yavatmal, Maharashtra', type: 'Industrial', feedstock: 'Cotton', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '2-3', priceLabel: 'Price (INR/KG)' },
-  { location: 'Kutch/Rajkot, Gujarat', type: 'Industrial', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '500 T', availableNow: '200 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'West Bengal', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '80-90%', monthlyTotal: '500 T', availableNow: '200 T', priceYear: '20-22', priceLabel: 'Price (INR/KG)' },
-  { location: 'Lucknow, Uttar Pradesh', type: 'Industrial', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'Karnataka', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', carbonContent: '40-60%', monthlyTotal: '300 T', availableNow: '100 T', priceYear: '5-6', priceLabel: 'Price (INR/KG)' },
-  { location: 'Jalna, Maharashtra', type: 'Artisanal', feedstock: 'Cotton', method: 'Kontiki', carbonContent: '60-80%', monthlyTotal: '150 T', availableNow: '100 T', priceYear: '2-3', priceLabel: 'Price (INR/KG)' },
+  { location: 'Yavatmal, Maharashtra', type: 'Industrial', feedstock: 'Cotton', method: 'Gasifier', monthlyTotal: '3,000 T', availableNow: '10,000 T' },
+  { location: 'Kutch/Rajkot, Gujarat', type: 'Industrial', feedstock: 'Prosopis', method: 'Pyrolysis', monthlyTotal: '200 T', availableNow: '500 T' },
+  { location: 'West Bengal', type: 'Artisanal', feedstock: 'Prosopis/wood', method: 'Kontiki', monthlyTotal: '200 T', availableNow: '500 T' },
+  { location: 'Lucknow, Uttar Pradesh', type: 'Industrial', feedstock: 'Prosopis', method: 'Gasifier', monthlyTotal: '100 T', availableNow: '300 T' },
+  { location: 'Karnataka', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', monthlyTotal: '100 T', availableNow: '300 T' },
+  { location: 'Jalna, Maharashtra', type: 'Artisanal', feedstock: 'Cotton', method: 'Kontiki', monthlyTotal: '100 T', availableNow: '150 T' },
 ];
 
 function FilterPill({ label, active, onClick }) {
@@ -35,89 +40,65 @@ function FilterPill({ label, active, onClick }) {
   );
 }
 
+/** Card layout and content match Figma BIOCHAR BOX: 3-col grid so Type & Available now align in column 2. */
 function ProductCard({ product }) {
   const p = product;
   const subject = encodeURIComponent(`Get inquiry about ${p.location} biochar`);
   const mailtoHref = `mailto:contact@absorb-x.com?subject=${subject}`;
-  const labelClass = 'text-[12px] font-medium leading-4 text-[#333] md:text-[12px] md:leading-4';
-  const valueClass = 'text-sm font-semibold leading-[18px] text-[rgba(81,81,81,0.8)] md:text-[18px] md:leading-5';
+  const labelClass = 'font-medium text-[12px] leading-4 text-[#333]';
+  const valueClass = 'font-semibold text-[14px] leading-[18px] text-[rgba(81,81,81,0.8)] md:text-[18px] md:leading-5';
+  const feedstockParts = p.feedstock.includes('/') ? p.feedstock.split('/') : null;
   return (
-    <article className="flex h-[272px] w-full max-w-[327px] flex-col rounded-[20px] bg-[#efece6] overflow-hidden p-6 box-border md:h-[333px] md:max-w-[400px] md:p-6 md:pt-9">
-      {/* Figma mobile: location 20px/24px bold; desktop 28px/32px */}
+    <article className="relative flex h-[272px] w-full max-w-[327px] flex-col rounded-[20px] bg-[#efece6] overflow-hidden p-6 md:h-[333px] md:max-w-[400px] md:pt-9 md:pb-6">
       <h3 className="font-serif text-[20px] font-bold leading-[24px] text-[#333] mb-5 md:mb-6 md:text-[28px] md:leading-8">
         {p.location}
       </h3>
-      {/* Mobile (Figma): row1 Feedstock | Method | Carbon (gap 23px), row2 Monthly total | Available now (gap 16px). Desktop: 3 columns */}
-      <div className="flex flex-1 flex-col gap-[18px] min-w-0 md:flex-row md:gap-[44px]">
-        {/* Mobile: first row — Feedstock, Method, Carbon Content */}
-        <div className="flex gap-[23px] md:hidden">
-          <div className="flex flex-col gap-1 w-[88px]">
-            <span className={labelClass}>Feedstock</span>
+      {/* Single 3-col grid so column 2 (Type & Available now) align */}
+      <div className="grid grid-cols-3 gap-x-6 gap-y-5 mb-auto">
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className={labelClass}>Feedstock</span>
+          {feedstockParts ? (
+            <span className={valueClass}>
+              {feedstockParts[0]}/
+              <br />
+              {feedstockParts.slice(1).join('/')}
+            </span>
+          ) : (
             <span className={valueClass}>{p.feedstock}</span>
-          </div>
-          <div className="flex flex-col gap-1 w-[59px]">
-            <span className={labelClass}>Method</span>
-            <span className={valueClass}>{p.method}</span>
-          </div>
-          <div className="flex flex-col gap-1 w-[88px]">
-            <span className={labelClass}>Carbon Content</span>
-            <span className={valueClass}>{p.carbonContent}</span>
-          </div>
+          )}
         </div>
-        <div className="flex gap-4 md:hidden">
-          <div className="flex flex-col gap-1 w-[88px]">
-            <span className={labelClass}>Monthly total</span>
-            <span className={valueClass}>{p.monthlyTotal}</span>
-          </div>
-          <div className="flex flex-col gap-1 w-[88px]">
-            <span className={labelClass}>Available now</span>
-            <span className={valueClass}>{p.availableNow}</span>
-          </div>
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className={labelClass}>Type</span>
+          <span className={valueClass}>{p.type}</span>
         </div>
-        {/* Desktop: 3-column layout */}
-        <div className="hidden md:flex md:flex-row md:gap-[44px] md:flex-1">
-          <div className="flex flex-col gap-6 w-[88px]">
-            <div className="flex flex-col gap-1">
-              <span className={labelClass}>Feedstock</span>
-              <span className={valueClass}>{p.feedstock}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className={labelClass}>Monthly total</span>
-              <span className={valueClass}>{p.monthlyTotal}</span>
-            </div>
-          </div>
-          <div className="flex flex-col gap-6 w-[88px]">
-            <div className="flex flex-col gap-1">
-              <span className={labelClass}>Method</span>
-              <span className={valueClass}>{p.method}</span>
-            </div>
-            <div className="flex flex-col gap-1">
-              <span className={labelClass}>Available now</span>
-              <span className={valueClass}>{p.availableNow}</span>
-            </div>
-          </div>
-          <div className="flex flex-col gap-1 w-[88px]">
-            <span className={labelClass}>Carbon Content</span>
-            <span className={valueClass}>{p.carbonContent}</span>
-          </div>
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className={labelClass}>Method</span>
+          <span className={valueClass}>{p.method}</span>
         </div>
-      </div>
-      {/* Price + Get Quote: Figma mobile 120×40, 92px price block */}
-      <div className="mt-auto flex items-end justify-between pt-6 md:pt-5">
-        <div className="flex flex-col gap-0.5 w-[92px] md:w-auto">
-          <span className="font-serif text-[20px] font-black leading-[24px] text-[#333] md:text-[28px] md:leading-8">{p.priceYear}</span>
-          <span className="text-sm leading-5 text-[#333] md:text-[20px] md:leading-6">
-            Price <span className="text-[12px] leading-4 md:text-[14px] md:leading-[18px]">(INR/KG)</span>
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className={labelClass}>
+            Monthly total
+            <br />
+            (tonnes)
           </span>
+          <span className={valueClass}>{p.monthlyTotal}</span>
         </div>
-        <a
-          href={mailtoHref}
-          className="flex h-10 w-[120px] shrink-0 items-center justify-center gap-1 rounded-[32px] border-2 border-[#c65b1d] bg-[#ebddd2] text-[14px] font-bold leading-[18px] text-[#c65b1d] md:h-12 md:w-[160px] md:gap-1 md:text-base"
-        >
-          Get Quote
-          <Image src={ASSETS.arrowRight} alt="" width={16} height={16} className="shrink-0 md:h-6 md:w-6" aria-hidden />
-        </a>
+        <div className="flex flex-col gap-1 min-w-0">
+          <span className={labelClass}>
+            Available now
+            <br />
+            (tonnes)
+          </span>
+          <span className={valueClass}>{p.availableNow}</span>
+        </div>
       </div>
+      <a
+        href={mailtoHref}
+        className="mt-auto flex h-10 w-[120px] shrink-0 items-center justify-center gap-1 rounded-[32px] border-2 border-[#c65b1d] bg-[#ebddd2] text-[14px] font-bold leading-[18px] text-[#c65b1d] md:h-12 md:w-[160px] md:gap-1 md:text-base"
+      >
+        Get Quote
+        <Image src={ASSETS.arrowRight} alt="" width={16} height={16} className="shrink-0 md:h-6 md:w-6" aria-hidden />
+      </a>
     </article>
   );
 }
@@ -126,11 +107,21 @@ export default function ThirdSection() {
   const [typeActive, setTypeActive] = useState('All');
   const [methodActive, setMethodActive] = useState('All');
 
+  const methodOptions = METHOD_BY_TYPE[typeActive] || ALL_METHODS;
+  const methodActiveValid = methodOptions.includes(methodActive);
+  const effectiveMethod = methodActiveValid ? methodActive : 'All';
+
   const filteredProducts = BIOCHAR_PRODUCTS.filter((product) => {
     const matchType = typeActive === 'All' || product.type === typeActive;
-    const matchMethod = methodActive === 'All' || product.method === methodActive;
+    const matchMethod = effectiveMethod === 'All' || product.method === effectiveMethod;
     return matchType && matchMethod;
   });
+
+  function handleTypeClick(opt) {
+    setTypeActive(opt);
+    const nextMethods = METHOD_BY_TYPE[opt] || ALL_METHODS;
+    if (!nextMethods.includes(methodActive)) setMethodActive('All');
+  }
 
   return (
     <section className="w-full bg-[#100f0f] px-6 pt-20 pb-16 md:px-20 md:pt-[80px] md:pb-[180px] md:px-[96px] md:pt-[120px] md:pb-[180px]">
@@ -142,7 +133,7 @@ export default function ThirdSection() {
         </h2>
         {/* Content area: left = filter panel, right = grid of cards */}
         <div className="md:grid md:grid-cols-[359px_1fr] md:gap-[41px] md:items-start">
-          <aside className="mb-6 md:mb-0 md:shrink-0">
+          <aside className="mb-12 md:mb-0 md:shrink-0">
             <p className="mb-8 text-base font-medium uppercase tracking-[0.32px] text-[#c5c4c4] md:mb-8 md:text-base">
               FILTERS
             </p>
@@ -156,43 +147,35 @@ export default function ThirdSection() {
                     key={opt}
                     label={opt}
                     active={typeActive === opt}
-                    onClick={() => setTypeActive(opt)}
+                    onClick={() => handleTypeClick(opt)}
                   />
                 ))}
               </div>
             </div>
-            <div>
+            <div className="mt-8 md:mt-0">
               <p className="mb-4 text-xs font-medium uppercase tracking-[0.24px] text-[#c5c4c4] md:mb-5 md:text-base">
                 METHOD USED
               </p>
-              <div className="flex flex-wrap gap-3 md:flex md:flex-col md:gap-6">
-                <div className="flex flex-wrap gap-3 md:gap-3">
-                  {METHOD_OPTIONS.slice(0, 3).map((opt) => (
-                    <FilterPill
-                      key={opt}
-                      label={opt}
-                      active={methodActive === opt}
-                      onClick={() => setMethodActive(opt)}
-                    />
-                  ))}
-                </div>
-                <div className="flex flex-wrap gap-3 md:gap-3">
-                  {METHOD_OPTIONS.slice(3).map((opt) => (
-                    <FilterPill
-                      key={opt}
-                      label={opt}
-                      active={methodActive === opt}
-                      onClick={() => setMethodActive(opt)}
-                    />
-                  ))}
-                </div>
+              <div className="flex flex-wrap gap-3 md:gap-3">
+                {methodOptions.map((opt) => (
+                  <FilterPill
+                    key={opt}
+                    label={opt}
+                    active={effectiveMethod === opt}
+                    onClick={() => setMethodActive(opt)}
+                  />
+                ))}
               </div>
             </div>
           </aside>
           <div className="flex flex-col gap-8 md:min-w-0 md:flex-1 md:grid md:grid-cols-2 md:gap-x-[32px] md:gap-y-8 md:content-start">
-            {filteredProducts.map((product, i) => (
-              <ProductCard key={product.location} product={product} />
-            ))}
+            {filteredProducts.length === 0 ? (
+              <p className="text-[#c5c4c4] text-lg md:text-xl">No biochar supply available</p>
+            ) : (
+              filteredProducts.map((product) => (
+                <ProductCard key={product.location} product={product} />
+              ))
+            )}
           </div>
         </div>
       </div>

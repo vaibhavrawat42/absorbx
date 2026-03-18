@@ -3,13 +3,15 @@ import { ASSETS } from '@/lib/assets';
 
 const SECTIONS = [
   {
-    image: ASSETS.image1,
+    image: ASSETS.indiaweb,
+    imageMobile: ASSETS.indiamobile,
     title: 'Pan India availability',
     description:
       'Access biochar from a growing network of producers across India, ensuring reliable sourcing wherever your operations are based.',
   },
   {
-    image: ASSETS.image2,
+    image: ASSETS.ruppyweb,
+    imageMobile: ASSETS.ruppymobile,
     title: 'Competitive Pricing',
     description:
       'Transparent pricing and efficient sourcing help you secure high-quality biochar at competitive market rates.',
@@ -38,7 +40,7 @@ export default function SecondSection() {
           Why choose our <span className="font-bold text-[#c65b1d]">marketplace</span>
         </h2>
 
-        <div className="flex flex-col gap-10 md:gap-12 md:gap-[140px]">
+        <div className="flex flex-col gap-[40px] md:gap-12 md:gap-[140px]">
           {SECTIONS.map((item, i) => (
             <div
               key={i}

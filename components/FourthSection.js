@@ -1,27 +1,25 @@
 import Image from 'next/image';
+import { ASSETS } from '@/lib/assets';
 
 /**
- * NEW: FOURTH WEB / NEW: FOURTH MOBILE from Figma – “In Partnership with” + logo.
- * Web: max-w 1248px, rounded-[40px], h 416. Mobile: max-w 327px, rounded-[20px], min height for content.
+ * Frame: NEW: FOURTH MOBILE – uses arka mobile from assets (mobile + desktop).
  */
-const PARTNERSHIP_LOGO_SRC =
-  'https://www.figma.com/api/mcp/asset/3cf7dc9e-6314-46c9-bdee-383ae185617a';
-
 export default function FourthSection() {
   return (
-    <section className="w-full bg-[#100f0f] px-6 py-16 md:px-[96px] md:py-[120px]">
+    <section className="w-full bg-[#100f0f] px-6 py-16 pb-[120px] md:px-[96px] md:py-[120px] md:pb-[120px]">
       <div className="mx-auto w-full max-w-[327px] md:max-w-[1248px]">
-        <div className="flex flex-col items-center justify-center rounded-[20px] bg-[#efece6] px-6 py-10 md:min-h-[416px] md:rounded-[40px] md:py-16 md:px-12">
-          <h2 className="text-center font-serif text-[20px] font-semibold leading-[24px] tracking-[0.4px] text-[#333] md:text-[48px] md:leading-[52px] md:tracking-[0.96px]">
+        <div className="flex min-h-[220px] flex-col items-center justify-center gap-[32px] rounded-[20px] bg-[#efece6] px-6 py-10 md:min-h-[416px] md:gap-10 md:rounded-[40px] md:py-16 md:px-12">
+          <h2 className="text-center font-serif text-[20px] font-bold leading-[24px] tracking-[0.4px] text-[#333] md:text-[48px] md:leading-[52px] md:font-semibold md:tracking-[0.96px]">
             In Partnership with
           </h2>
-          <div className="relative mt-6 h-[55px] w-[140px] md:mt-10 md:h-[118px] md:w-[303px]">
+          <div className="relative h-[62px] w-[159px] shrink-0 md:h-[118px] md:w-[303px]">
             <Image
-              src={PARTNERSHIP_LOGO_SRC}
+              src={ASSETS.arkamobile}
               alt="Arka Climate"
               fill
               className="object-contain object-center"
-              sizes="(max-width: 768px) 140px, 303px"
+              sizes="(max-width: 768px) 159px, 303px"
+              unoptimized
             />
           </div>
         </div>

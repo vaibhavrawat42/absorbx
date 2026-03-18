@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#100f0f]">
       <NavBar />
+      <HeroSection />
       <main className="md:max-w-[1440px] md:mx-auto">
-        <HeroSection />
         <SecondSection />
         <ThirdSection />
         <FourthSection />
