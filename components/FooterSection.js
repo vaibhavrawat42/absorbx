@@ -42,12 +42,14 @@ export default function FooterSection() {
         <div className="flex flex-col py-8 md:grid md:grid-cols-[1fr_144px_120px_152px] md:gap-20 md:items-start md:py-0">
           {/* Brand + contact column – Figma left column */}
           <div className="flex flex-col gap-6">
-            <Link
-              href="/"
-              className="font-serif text-2xl font-bold leading-7 text-white md:text-[48px] md:leading-[52px]"
+            <a
+              href="https://www.absorb-x.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-serif text-2xl font-bold leading-7 text-white md:text-[48px] md:leading-[52px] hover:underline"
             >
               Absorb<span className="text-[#c65b1d]">X.</span>
-            </Link>
+            </a>
             <div className="flex flex-wrap items-center gap-2 text-base leading-5 text-[#e7e6e2] md:text-[24px] md:leading-7">
               <a href="mailto:contact@absorb-x.com" className="hover:underline">
                 contact@absorb-x.com
@@ -58,13 +60,28 @@ export default function FooterSection() {
               </a>
             </div>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/absorbx/posts/?feedView=all"
               target="_blank"
               rel="noopener noreferrer"
-              className="block h-6 w-6 md:h-10 md:w-10"
+              className="block h-6 w-6 shrink-0 md:h-10 md:w-10"
               aria-label="LinkedIn"
             >
-              <Image src={ASSETS.linkedIn} alt="" width={24} height={24} className="h-6 w-6 md:h-10 md:w-10" />
+              <Image
+                src={ASSETS.linkedinmobile}
+                alt=""
+                width={24}
+                height={24}
+                className="h-6 w-6 object-contain md:hidden"
+                aria-hidden
+              />
+              <Image
+                src={ASSETS.linkedinweb}
+                alt=""
+                width={40}
+                height={40}
+                className="hidden object-contain md:block md:h-10 md:w-10"
+                aria-hidden
+              />
             </a>
             <div className="flex flex-col gap-2 text-[#bbb9b7] md:text-[24px] md:leading-7">
               <p className="text-base leading-5 md:leading-[28px]">
