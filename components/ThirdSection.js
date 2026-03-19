@@ -13,10 +13,10 @@ const METHOD_BY_TYPE = {
 };
 
 const BIOCHAR_PRODUCTS = [
-  { location: 'Yavatmal, Maharashtra', type: 'Industrial', feedstock: 'Cotton', method: 'Gasifier', monthlyTotal: '3,000 T', availableNow: '10,000 T' },
-  { location: 'Kutch/Rajkot, Gujarat', type: 'Industrial', feedstock: 'Prosopis', method: 'Pyrolysis', monthlyTotal: '200 T', availableNow: '500 T' },
-  { location: 'West Bengal', type: 'Artisanal', feedstock: 'Prosopis/wood', method: 'Kontiki', monthlyTotal: '200 T', availableNow: '500 T' },
-  { location: 'Lucknow, Uttar Pradesh', type: 'Industrial', feedstock: 'Prosopis', method: 'Gasifier', monthlyTotal: '100 T', availableNow: '300 T' },
+  { location: 'Yavatmal, Maharashtra', type: 'Artisanal', feedstock: 'Cotton', method: 'Kontiki', monthlyTotal: '3,000 T', availableNow: '10,000 T' },
+  { location: 'Kutch/Rajkot, Gujarat', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', monthlyTotal: '200 T', availableNow: '500 T' },
+  { location: 'West Bengal', type: 'Industrial', feedstock: 'Prosopis/wood', method: 'Gasifier', monthlyTotal: '200 T', availableNow: '500 T' },
+  { location: 'Lucknow, Uttar Pradesh', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', monthlyTotal: '100 T', availableNow: '300 T' },
   { location: 'Karnataka', type: 'Artisanal', feedstock: 'Prosopis', method: 'Kontiki', monthlyTotal: '100 T', availableNow: '300 T' },
   { location: 'Jalna, Maharashtra', type: 'Artisanal', feedstock: 'Cotton', method: 'Kontiki', monthlyTotal: '100 T', availableNow: '150 T' },
 ];
